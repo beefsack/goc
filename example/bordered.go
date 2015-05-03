@@ -13,18 +13,18 @@ func main() {
 		log.Fatalf("failed to init termbox: %s", err)
 	}
 	defer termbox.Close()
-	goc.SetCells([]termbox.Cell{
-		{Ch: 'E', Fg: termbox.ColorRed},
-		{Ch: 'g'},
-		{Ch: 'g'},
-		{Ch: 0},
-		{Ch: 0},
-		{Ch: 'B'},
-		{Ch: 'a'},
-		{Ch: 'c'},
-		{Ch: 'o'},
-		{Ch: 'n'},
-	}, 5, 10, 10)
+	goc.Screen(&goc.Bordered{
+		Content: &goc.Text{
+			Content: []termbox.Cell{
+				{Ch: 'E', Fg: termbox.ColorRed},
+				{Ch: 'g'},
+				{Ch: 'g'},
+			},
+		},
+		Label:    "Check out the border!",
+		BorderFg: termbox.ColorGreen,
+		LabelFg:  termbox.ColorBlue | termbox.AttrUnderline | termbox.AttrBold,
+	})
 	if err := termbox.Flush(); err != nil {
 		log.Fatalf("failed to flush, %s", err)
 	}
