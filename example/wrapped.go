@@ -13,7 +13,7 @@ func main() {
 		log.Fatalf("failed to init termbox: %s", err)
 	}
 	defer termbox.Close()
-	goc.Screen(goc.PaddedEven(&goc.Bordered{
+	goc.Screen(&goc.Wrapped{
 		Content: &goc.Text{
 			Content: goc.StrToCells(`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet dui odio. Aenean rutrum quam non augue gravida vehicula. Mauris justo ex, tincidunt a neque nec, sodales sodales odio. Fusce eget condimentum ex, id cursus enim. Donec eget eros eleifend, porta nulla et, volutpat nisi. Nunc ultrices non eros vel volutpat. Fusce molestie dolor elementum, faucibus massa ac, maximus ipsum. Sed rhoncus non libero ut iaculis. Nam eget accumsan est. Phasellus id nunc odio. Donec dignissim vitae odio nec porta. Morbi at congue ex. Quisque diam massa, bibendum id ante ut, bibendum mattis ipsum. Morbi pellentesque turpis leo, et condimentum nulla mattis aliquam. Nunc libero velit, fermentum dictum interdum a, consequat non ex.
 
@@ -25,10 +25,7 @@ Duis et metus vitae sem lobortis tristique. Vestibulum ornare euismod ullamcorpe
 
 Fusce volutpat metus sit amet aliquet venenatis. Nam quis ante maximus, consectetur lectus ut, efficitur justo. Ut tempus, arcu vitae laoreet viverra, ex felis aliquet magna, cursus auctor nunc ligula vitae odio. In hendrerit dui enim, vel consequat elit mattis quis. Suspendisse volutpat nibh nulla, quis ullamcorper diam hendrerit in. In sit amet venenatis massa. Suspendisse potenti. Curabitur rutrum finibus fringilla. Praesent molestie, libero ut finibus tincidunt, neque mauris tristique ante, quis posuere elit nisi et neque. Curabitur fringilla maximus volutpat.`, termbox.ColorRed, termbox.ColorDefault),
 		},
-		Label:    "Check out the border!",
-		BorderFg: termbox.ColorGreen | termbox.AttrBold,
-		LabelFg:  termbox.ColorBlue | termbox.AttrUnderline | termbox.AttrBold,
-	}, 1))
+	})
 	if err := termbox.Flush(); err != nil {
 		log.Fatalf("failed to flush, %s", err)
 	}

@@ -65,3 +65,24 @@ func Screen(c Celler) {
 	width, height := termbox.Size()
 	SetCells(c.Cells(0, 0, width, height), width, 0, 0)
 }
+
+type Sizer interface {
+	Size() (width, height int)
+}
+
+type Widther interface {
+	Width() int
+}
+
+func Width(c Celler) (width int, ok bool) {
+	ok = true
+	switch t := c.(type) {
+	case Widther:
+		width = t.Width()
+	case Sizer:
+		width, _ = t.Size()
+	default:
+		ok = false
+	}
+	return
+}
