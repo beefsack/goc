@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"time"
 
 	"github.com/beefsack/goc"
 	"github.com/nsf/termbox-go"
@@ -32,5 +31,5 @@ Fusce volutpat metus sit amet aliquet venenatis. Nam quis ante maximus, consecte
 	if err := termbox.Flush(); err != nil {
 		log.Fatalf("failed to flush, %s", err)
 	}
-	time.Sleep(5 * time.Second)
+	termbox.PollEvent()
 }

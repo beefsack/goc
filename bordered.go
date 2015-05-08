@@ -46,7 +46,7 @@ func (b *Bordered) borderRune(dir int) rune {
 	return defaultBorderRunes[dir]
 }
 
-func (b *Bordered) Cells(x, y, width, height int) []termbox.Cell {
+func (b *Bordered) SizedCells(x, y, width, height int) []termbox.Cell {
 	if height <= 0 || width <= 0 {
 		return []termbox.Cell{}
 	}
@@ -56,7 +56,8 @@ func (b *Bordered) Cells(x, y, width, height int) []termbox.Cell {
 	}
 	cells := make([]termbox.Cell, width*height)
 	if b.Content != nil {
-		CopyCells(b.Content.Cells(0, 0, width-2, height-2), cells, width-2, 1, 1, width)
+		src, srcWidth := b.Content.Cells()
+		CopyCells(src, cells, srcWidth, 1, 1, width)
 	}
 	cells[0] = termbox.Cell{
 		Ch: b.borderRune(BorderTL),

@@ -6,30 +6,37 @@ type Text struct {
 	Content []termbox.Cell
 }
 
-func (t *Text) Cells(x, y, width, height int) []termbox.Cell {
-	cells := make([]termbox.Cell, width*height)
-	if t.Content == nil {
-		return cells
-	}
-	curX, curY := 0, 0
-	cellPos := 0
-	for _, c := range t.Content {
-		if c.Ch == '\n' {
-			if diff := x + width - curX; diff > 0 {
-				cellPos += diff
-			}
-			curX = 0
-			curY++
-			if curY >= y+height {
-				break
-			}
-		} else if curX >= x && curX < x+width && curY >= y && curY < y+height {
-			cells[cellPos] = c
-			cellPos++
-			curX++
+func (t *Text) Cells() ([]termbox.Cell, int) {
+	width := 0
+	lines := t.Lines()
+	for _, l := range lines {
+		if ll := len(l); ll > width {
+			width = ll
 		}
 	}
-	return cells
+	cells := []termbox.Cell{}
+	for _, l := range lines {
+		ll := len(l)
+		cells = append(cells, l...)
+		for i := 0; i < width-ll; i++ {
+			cells = append(cells, termbox.Cell{Ch: 0})
+		}
+	}
+	return cells, width
+}
+
+func (t *Text) Lines() [][]termbox.Cell {
+	lines := [][]termbox.Cell{}
+	line := []termbox.Cell{}
+	for _, c := range t.Content {
+		if c.Ch == '\n' {
+			lines = append(lines, line)
+			line = []termbox.Cell{}
+		} else {
+			line = append(line, c)
+		}
+	}
+	return lines
 }
 
 func (t *Text) Size() (width, height int) {

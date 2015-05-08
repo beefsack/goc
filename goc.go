@@ -3,7 +3,7 @@ package goc
 import "github.com/nsf/termbox-go"
 
 type Celler interface {
-	Cells(x, y, width, height int) []termbox.Cell
+	Cells() (cells []termbox.Cell, width int)
 }
 
 func SetCells(src []termbox.Cell, srcWidth, dstX, dstY int) {
@@ -61,9 +61,9 @@ func RunesToCells(input []rune, fg, bg termbox.Attribute) []termbox.Cell {
 	return cells
 }
 
-func Screen(c Celler) {
+func Screen(c SizedCeller) {
 	width, height := termbox.Size()
-	SetCells(c.Cells(0, 0, width, height), width, 0, 0)
+	SetCells(c.SizedCells(0, 0, width, height), width, 0, 0)
 }
 
 type Sizer interface {
